@@ -6,8 +6,22 @@ phases:
     commands:
       - echo "Installing dependencies..."
       - pip install -r requirements.txt -t lib
+      - echo "Installing github-to-lambda tool..."
+      - pip install github-to-lambda
+      - echo "Updating PATH to include user-installed packages..."
+      - export PATH=$PATH:$HOME/.local/bin
+  pre_build:
+    commands:
+      - echo "Checking PATH..."
+      - echo $PATH
+      - echo "Checking if github-to-lambda is installed..."
+      - which github-to-lambda || echo "github-to-lambda not found in PATH"
+      - echo "Listing installed packages..."
+      - pip list
   build:
     commands:
+      - echo "Running github-to-lambda..."
+      - github-to-lambda
       - echo "Zipping deployment package..."
       - cd lib
       - zip -r9 ../deployment_package.zip .
