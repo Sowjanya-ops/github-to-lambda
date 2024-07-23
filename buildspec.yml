@@ -1,4 +1,5 @@
 version: 0.2
+
 phases:
   install:
     runtime-versions:
@@ -6,7 +7,7 @@ phases:
     commands:
       - echo "Installing dependencies..."
       - echo "Installing github-to-lambda tool..."
-      # - pip install github-to-lambda
+      - pip install github-to-lambda || { echo "Failed to install github-to-lambda"; exit 1; }
       - echo "Updating PATH to include user-installed packages..."
       - export PATH=$PATH:$HOME/.local/bin
   pre_build:
@@ -14,13 +15,13 @@ phases:
       - echo "Checking PATH..."
       - echo $PATH
       - echo "Checking if github-to-lambda is installed..."
-      - which github-to-lambda || echo "github-to-lambda not found in PATH"
+      - which github-to-lambda || { echo "github-to-lambda not found in PATH"; exit 1; }
       - echo "Listing installed packages..."
-      # - pip list
+      - pip list
   build:
     commands:
       - echo "Running github-to-lambda..."
-      - github-to-lambda
+      - github-to-lambda || { echo "github-to-lambda command failed"; exit 1; }
       - echo "Zipping deployment package..."
       - cd lib
       - zip -r9 ../deployment_package.zip .
@@ -29,5 +30,8 @@ phases:
   post_build:
     commands:
       - echo "Updating lambda Function..."
-      # - aws lambda update-function-code --function-name github-to-lambda --zip-file fileb:///aws/target/function.zip
+      - aws lambda update-function-code --function-name github-to-lambda --zip-file fileb:///aws/target/function.zip
       - echo "DONE!!"
+artifacts:
+  files:
+    - deployment_package.zip
