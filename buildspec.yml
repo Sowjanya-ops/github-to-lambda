@@ -16,7 +16,7 @@ phases:
       - echo "Checking if github-to-lambda is installed..."
       - which github-to-lambda || echo "github-to-lambda not found in PATH"
       - echo "Listing installed packages..."
-      - pip list
+      # - pip list
   build:
     commands:
       - echo "Running github-to-lambda..."
@@ -29,5 +29,5 @@ phases:
   post_build:
     commands:
       - echo "Updating lambda Function..."
-      - aws lambda update-function-code --function-name github-to-lambda --zip-file fileb:///aws/target/function.zip
+      # - aws lambda update-function-code --function-name github-to-lambda --zip-file fileb:///aws/target/function.zip
       - echo "DONE!!"
