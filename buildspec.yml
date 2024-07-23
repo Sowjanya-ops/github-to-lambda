@@ -18,14 +18,13 @@ phases:
       - echo "Running github-to-lambda..."
       - python lambda_function.py || { echo "github-to-lambda command failed"; exit 1; }
       - echo "Zipping deployment package..."
-      # - cd lib
-      - zip -r9 ../deployment_package.zip .
+      - zip -r9 ../deployment_package.zip . -x "*.git*" -x "*.github*" -x "buildspec.yml"
       - cd ..
       - zip -g deployment_package.zip lambda_function.py
   post_build:
     commands:
       - echo "Updating lambda Function..."
-      - aws lambda update-function-code --function-name github-to-lambda --zip-file fileb://lambda_function.zip
+      - aws lambda update-function-code --function-name github-to-lambda --zip-file fileb://deployment_package.zip
       - echo "DONE!!"
 artifacts:
   files:
