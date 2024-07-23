@@ -25,7 +25,8 @@ phases:
   post_build:
     commands:
       - echo "Updating lambda Function..."
-      - aws lambda update-function-code --function-name github-to-lambda --zip-file fileb:///aws/target/function.zip
+      - aws lambda update-function-code --function-name github-to-lambda --zip-file fileb://lambda_function.zip
+      --zip-file "fileb://app.zip"
       - echo "DONE!!"
 artifacts:
   files:
