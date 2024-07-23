@@ -16,7 +16,7 @@ phases:
   build:
     commands:
       - echo "Running github-to-lambda..."
-      - python path/to/github-to-lambda.py || { echo "github-to-lambda command failed"; exit 1; }
+      - python path/to/lambda_function.py || { echo "github-to-lambda command failed"; exit 1; }
       - echo "Zipping deployment package..."
       # - cd lib
       - zip -r9 ../deployment_package.zip .
