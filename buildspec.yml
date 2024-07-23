@@ -6,7 +6,7 @@ phases:
     commands:
       - echo "Installing dependencies..."
       - echo "Installing github-to-lambda tool..."
-      - pip install github-to-lambda
+      # - pip install github-to-lambda
       - echo "Updating PATH to include user-installed packages..."
       - export PATH=$PATH:$HOME/.local/bin
   pre_build:
